@@ -1,9 +1,7 @@
 # Docker_MVC
-
---
+#
 ## Report
-
---
+#
 ### Roles:
 #### Masixole Ncoko: 
 -> MCV Application and Docker image creation.
@@ -14,7 +12,7 @@
 #### Samkelo Maswana: 
 -> Helped with planning and execution of testing.
 
--
+#
 ### MVC:
 Firstly, for the first part I used the same image we created from the previous activity in class and created a new container instead to a different port and name. Secondly, I created a very simple database in SSMS called Product and connected it to the container.  
 
@@ -22,10 +20,10 @@ For the second part I created a ASP.NET Core web app called WebsiteDocker, added
 
 For the third part I attempted to create a docker-compose.yml file based on the previous exercise we did as well as a dockerfile however these ended up having issues.
 
-
+#
 ### Docker, Database and MVC Connection/Optimization:
 
-
+#
 ### Difficulties:
 #### Masixole (MVC):
     1. My first challenge was making use of the same image we created in the previous exercise instead of creating a new one for this task, since this demanded different commands then the ones we were taught. 
@@ -39,5 +37,10 @@ For the third part I attempted to create a docker-compose.yml file based on the 
   
     5. In the simplest terms I basically found everything to be challenging. 
 
--
+#
 #### Joshua (Docker Files/Compose, SQL, Migrations):
+
+#
+## How to download the application:
+
+

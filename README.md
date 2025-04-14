@@ -1,84 +1,192 @@
-# Docker_MVC
-#
-## Report
-#
-### Roles:
-#### Masixole Ncoko: 
--> MCV Application and Docker image creation.
-#
-#### Joshua Sutherland: 
--> Docker Compose and Docker File creation, database connection/creation, Migrations and DB Context handling, and finally the init_database file.
-# 
-#### Samkelo Maswana: 
--> Helped with planning and execution of testing.
+# 🐳 ASP.NET MVC Application with Dockerized SQL Server Database
 
-#
-### MVC:
-Firstly, for the first part I used the same image we created from the previous activity in class and created a new container instead to a different port and name. Secondly, I created a very simple database in SSMS called Product and connected it to the container.  
+This project is a containerized **ASP.NET MVC C# web application** that utilizes **Entity Framework Core migrations** and connects to a **Dockerized SQL Server** database using Docker Compose. It's designed for easy setup and consistent development environments.
 
-For the second part I created a ASP.NET Core web app called WebsiteDocker, added my connection string, created a product model to match the database, created a DbContext class, made the necessary changes in the main program.cs file and finally created the ProductsController (note: I did not code this part myself but had visual studio autogenerate it itself). Migrations where also added later but this was not done by me. 
+---
 
-For the third part I attempted to create a docker-compose.yml file based on the previous exercise we did as well as a dockerfile however these ended up having issues.
+## 📋 Report
 
-#
-### Docker, Database and MVC Connection/Optimization:
-I began developing the code after Masi attempted the beginning stages. I discovered the following areas needing focus:
-1. Connection string regarding issues.
-2. Migrations being non-existant.
-3. Outdated Docker Files.
-4. Error in model variables for Product.
-5. Issue with location of Docker Compose and Files.
+### 👥 Roles
 
-I discovered that the port 5000 was not establishing with the Sequel Server Management Studio, thus we remade the docker image for the database.
-We named the port as localhost, 1433. Utilizing this new port, I created a database and named it Product. 
+#### 🎯 Masixole Ncoko  
+> MVC application and Docker image creation
 
-I then went and corrected the connection strings and modified the program.cs in the application to create the sql string in the Environment.
-            C# Code: 
-            
-            var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING") ??
+#### 🐳 Joshua Sutherland  
+> Docker Compose and Dockerfile creation, database connection/creation, migrations and `DbContext` handling, and initialization of the database.
+
+#### 🧪 Samkelo Maswana  
+> Planning and execution of testing
+
+---
+
+## 🛠 MVC Overview (Masixole)
+
+- Reused a previously built Docker image and created a new container on a different port.
+- Created a simple database in SSMS called **Product**, and connected it to the container.
+- Developed an ASP.NET Core Web App named `WebsiteDocker`.
+- Added a connection string, created a `Product` model, and set up `DbContext`.
+- Updated `Program.cs` to handle database context.
+- Used Visual Studio to auto-generate the `ProductsController`.
+- Migrations were added by another contributor.
+
+---
+
+## 🔧 Docker, Database, and MVC Optimization (Joshua)
+
+After Masi's initial setup, the following improvements were made:
+
+### Key Issues Resolved:
+1. **Connection String** problems
+2. Missing **Migrations**
+3. **Outdated Docker files**
+4. Incorrect **Model properties**
+5. Incorrect **Docker file/compose location**
+
+### Actions Taken:
+
+- SQL Server container was reconfigured to expose port `1433` and used `localhost`.
+- Database named `Product` was created inside the container.
+- Connection string environment variable added to `Program.cs`:
+
+```csharp
+var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING") ??
                        builder.Configuration.GetConnectionString("DefaultConnection");
 
-            if (string.IsNullOrWhiteSpace(connectionString))
-            {
-                throw new InvalidOperationException("SQL connection string not found.");
-            }
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException("SQL connection string not found.");
+}
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString, sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure();
-                }));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure();
+    }));
+```
 
-After correcting the connection string I added in migrations to the application and made changes to the variables in the model Product. I then went and created the table Products in the database successfully.
+- Migrations were added and applied.
+- Dockerfiles were updated and corrected.
+- Docker Compose was moved to the correct location.
+- Application successfully connected to the database and displayed data on the `Products` page.
 
-When migrations was finished, I turned my attention to the docker files. Ensuring that the information is updated and correct. I added modifications to the local host number and implemented lines found in our previous docker activity needed to ensure the environment is successfully established.
+---
 
-I was then encountering an issue with building/updating the docker compose. I then located the file in the application folder. I moved the file to the correct location and decided to build the compose file again and it was a success!
+## ❗ Challenges Faced
 
-Lastly, I inserted some products into the Products table to check if the MVC was working and hazaa! It indeed was.
-#
-### Difficulties:
-#### Masixole (MVC):
-- My first challenge was making use of the same image we created in the previous exercise instead of creating a new one for this task, since this demanded different commands then the ones we were taught. 
+### 🙍‍♂️ Masixole (MVC)
 
-- Another challenge was one that affected my project right up until submission/presentation and that was mapping the host port to 5000 right from the beginning which may have caused unnecessary issues later. 
+- Difficulty in reusing previous Docker images with different command sets.
+- Misconfigured port `5000` from the beginning, leading to later issues.
+- Persistent SQL Server connection errors.
+- Extensive trial and error on connection strings and firewall settings.
+- Failed attempts at Dockerfile and Compose file creation.
+- Overall found the entire MVC configuration to be a major challenge.
 
-- Majority of my issues came from the MVC application as whenever I tried to navigate to the Products page after running the web app it always failed to connect the sql server. I tried so many fixes like altering the connection string, changing my firewall settings in windows defender and even creating a console app called WebsiteDockerTest just for testing the connection string but to no avail.  
+---
 
-- Finally failing to correctly create the docker file and docker-compose file. 
-  
-- In the simplest terms I basically found everything to be challenging. 
+### 🧑‍💻 Joshua (Docker, SQL, Migrations)
 
-#
-#### Joshua (Docker Files/Compose, SQL, Migrations):
-My challenges mostly derrived from the following:
+- Rebuilding and testing Docker image for SQL Server.
+- Handling connection string via environment variables.
+- Resolving EF Core migration issues due to model errors and NuGet versions.
+- Moving Docker Compose to the correct path and validating it builds correctly.
 
-- Recreating the docker image for the database.
-- Adjusting the connection string to work with environment.
-- Ensuring migrations were working as there were errors with variables and nuget versions.
-- Locating and relocation of the Docker Compose file.
-  
-#
-## How to download the application:
+---
 
+## 🚀 How to Download and Run the Application
 
+### 🧰 Prerequisites
+
+Ensure the following are installed:
+
+- [.NET SDK 6.0 or later](https://dotnet.microsoft.com/download)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Git](https://git-scm.com/)
+
+---
+
+### 🐳 Docker Containers Used
+
+- `mvc_app`: ASP.NET MVC application container
+- `sql_db`: SQL Server container
+
+---
+
+### 📦 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/your-mvc-docker-app.git
+cd your-mvc-docker-app
+```
+
+---
+
+### ⚙️ 2. Configure `appsettings.json`
+
+Ensure it contains the correct connection string:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=sql_db;Database=YourDbName;User=sa;Password=YourStrongPassword123;"
+}
+```
+
+> `sql_db` matches the container name in `docker-compose.yml`.
+
+---
+
+### 🛠️ 3. Build and Run the Application
+
+```bash
+docker-compose up --build
+```
+
+This will:
+- Build the ASP.NET MVC Docker image
+- Pull/start the SQL Server container
+- Run both containers in a connected network
+
+---
+
+### 🧬 4. Apply EF Core Migrations
+
+After the containers are running:
+
+```bash
+docker exec -it mvc_app dotnet ef database update
+```
+
+If no migrations exist:
+
+```bash
+docker exec -it mvc_app dotnet ef migrations add InitialCreate
+docker exec -it mvc_app dotnet ef database update
+```
+
+---
+
+### 🌐 5. Access the Web App
+
+Open your browser and visit:
+
+```
+http://localhost:5000
+```
+
+---
+
+## ✅ Final Remarks
+
+With the database connected, migrations applied, and Docker services running smoothly, the application should now display data from the `Products` table.
+
+Feel free to test by adding new entries to the `Products` table via SQL Server Management Studio or using the web interface.
+
+---
+
+## 🧠 Authors
+
+- **Masixole Ncoko** – MVC Implementation  
+- **Joshua Sutherland** – Docker, SQL Server, Migrations  
+- **Samkelo Maswana** – Testing Support
+
+---

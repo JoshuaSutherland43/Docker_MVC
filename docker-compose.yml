@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+    conference-db:
+        build:
+            context: ./ProductDB 
+            dockerfile: Dockerfile
+        container_name: product-db
+        environment: 
+            ACCEPT_EULA: "Y"
+            MSSQL_SA_PASSWORD: "Password1"
+            MSSQL_PID: "Express"
+        ports:
+            - "1433:1433"
+            - "1400:1433"
+        volumes:
+                - db_data:/var/opt/mssql
+                - ./logs:/var/opt/mssql/log
+        restart: always 
+        networks: 
+                - conference-network
+
+networks: 
+    conference-network:
+        driver: bridge
+        
+volumes:
+    db_data:    
+        

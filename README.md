@@ -26,16 +26,15 @@ For the third part I attempted to create a docker-compose.yml file based on the 
 #
 ### Difficulties:
 #### Masixole (MVC):
-    1. My first challenge was making use of the same image we created in the previous exercise instead of creating a new one for this task, since this demanded different commands then the ones we were taught. 
+- My first challenge was making use of the same image we created in the previous exercise instead of creating a new one for this task, since this demanded different commands then the ones we were taught. 
 
-    2. Another challenge was one that affected my project right up until submission/presentation and that was mapping the host port to 5000 right from the beginning which may have caused unnecessary issues later. 
+- Another challenge was one that affected my project right up until submission/presentation and that was mapping the host port to 5000 right from the beginning which may have caused unnecessary issues later. 
 
-    3. Majority of my issues came from the MVC application as whenever I tried to navigate to the Products page after running the web app it always failed to connect the sql server. 
-    I tried so many fixes like altering the connection string, changing my firewall settings in windows defender and even creating a console app called WebsiteDockerTest just for testing the connection string but to no avail.  
+- Majority of my issues came from the MVC application as whenever I tried to navigate to the Products page after running the web app it always failed to connect the sql server. I tried so many fixes like altering the connection string, changing my firewall settings in windows defender and even creating a console app called WebsiteDockerTest just for testing the connection string but to no avail.  
 
-    4. Finally failing to correctly create the docker file and docker-compose file. 
+- Finally failing to correctly create the docker file and docker-compose file. 
   
-    5. In the simplest terms I basically found everything to be challenging. 
+- In the simplest terms I basically found everything to be challenging. 
 
 #
 #### Joshua (Docker Files/Compose, SQL, Migrations):

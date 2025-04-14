@@ -22,7 +22,40 @@ For the third part I attempted to create a docker-compose.yml file based on the 
 
 #
 ### Docker, Database and MVC Connection/Optimization:
+I began developing the code after Masi attempted the beginning stages. I discovered the following areas needing focus:
+1. Connection string regarding issues.
+2. Migrations being non-existant.
+3. Outdated Docker Files.
+4. Error in model variables for Product.
+5. Issue with location of Docker Compose and Files.
 
+I discovered that the port 5000 was not establishing with the Sequel Server Management Studio, thus we remade the docker image for the database.
+We named the port as localhost, 1433. Utilizing this new port, I created a database and named it Product. 
+
+I then went and corrected the connection strings and modified the program.cs in the application to create the sql string in the Environment.
+            C# Code: 
+            
+            var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING") ??
+                       builder.Configuration.GetConnectionString("DefaultConnection");
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException("SQL connection string not found.");
+            }
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure();
+                }));
+
+After correcting the connection string I added in migrations to the application and made changes to the variables in the model Product. I then went and created the table Products in the database successfully.
+
+When migrations was finished, I turned my attention to the docker files. Ensuring that the information is updated and correct. I added modifications to the local host number and implemented lines found in our previous docker activity needed to ensure the environment is successfully established.
+
+I was then encountering an issue with building/updating the docker compose. I then located the file in the application folder. I moved the file to the correct location and decided to build the compose file again and it was a success!
+
+Lastly, I inserted some products into the Products table to check if the MVC was working and hazaa! It indeed was.
 #
 ### Difficulties:
 #### Masixole (MVC):
@@ -38,7 +71,13 @@ For the third part I attempted to create a docker-compose.yml file based on the 
 
 #
 #### Joshua (Docker Files/Compose, SQL, Migrations):
+My challenges mostly derrived from the following:
 
+- Recreating the docker image for the database.
+- Adjusting the connection string to work with environment.
+- Ensuring migrations were working as there were errors with variables and nuget versions.
+- Locating and relocation of the Docker Compose file.
+  
 #
 ## How to download the application:
 
